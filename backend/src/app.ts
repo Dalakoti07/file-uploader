@@ -1,14 +1,17 @@
-import express ,{Application,Request, Response } from 'express';
+import express, {Application, Request, Response} from 'express';
 
+const bodyParser = require('body-parser')
 const app: Application = express();
+const router = require('./routers')
 
-const add = (a:number, b: number): number => a+b;
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.static('public'));
+app.use(router)
 
-app.get('/',(req: Request, res: Response)=>{
-    console.log(`addition: ${add(2,3)}`)
+app.get('/', (req: Request, res: Response) => {
     res.send('Hello boy!')
 });
 
-app.listen(5000, ()=>{
+app.listen(3000, () => {
     console.log('Server running')
 })
