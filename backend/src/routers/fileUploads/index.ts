@@ -35,7 +35,7 @@ interface MulterRequest extends Request {
     file: any;
 }
 
-uploadRouter.post('/', function (req: Request, res: Response) {
+uploadRouter.post('/', function (req: Request, res: Response) {    
     upload(req, res, (err: any) => {
         if (err) {
             res.send({
@@ -44,14 +44,15 @@ uploadRouter.post('/', function (req: Request, res: Response) {
             return
         }
         if ((req as MulterRequest).file == undefined) {
-            res.send({
+            res.status(400).send({
                 error: "No file selected"
             })
+            return
         }
         // console.log((req as MulterRequest).file)
         res.send({
             message: 'File uploaded',
-            path: `${req.get('host')}/uploads/images/${(req as MulterRequest).file.filename}`
+            path: `http://${req.get('host')}/uploads/images/${(req as MulterRequest).file.filename}`
         })
     })
 })
